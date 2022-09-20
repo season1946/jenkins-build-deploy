@@ -12,10 +12,12 @@ pipeline {
             }
         }
         stage('Deploy'){
+         container('kubectl') {
             steps {
                  sh 'kubectl apply -f deployment.yml'
                  sh 'kubectl rollout restart deployment demo-app-deploy'
             }
+         }
         }
 
     }
