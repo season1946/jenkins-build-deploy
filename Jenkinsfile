@@ -52,7 +52,7 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker login -u victorgucanada -p Jing723211'
-          sh 'docker push'
+          sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
     }
