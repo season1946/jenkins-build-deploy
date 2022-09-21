@@ -66,7 +66,7 @@ pipeline {
     stage('Login-push') {
       steps {
         container('docker') {
-          sh 'echo $ecr_token | docker login --username AWS --password-stdin 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'docker login --username AWS --password $ecr_token 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
