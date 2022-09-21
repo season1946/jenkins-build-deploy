@@ -59,7 +59,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'aws ecr get-login --no-include-email --region us-west-2'
+          sh 'aws ecr get-login-password --region us-west-2'
       }
      }
     }
