@@ -60,7 +60,7 @@ pipeline {
       steps {
         container('kubectl') {
              sh 'kubectl apply -f deployment.yml'
-             sh 'kubectl rollout restart deployment demo-app-deploy'
+             sh 'kubectl rollout restart deployment demo-app-deploy  -n default'
         }
       }
     }
@@ -69,7 +69,7 @@ pipeline {
         container('kubectl') {
            withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'arn:aws:eks:us-west-2:349361870252:cluster/aws011-preprod-test-eks', contextName: '', credentialsId: 'EKS011-admin-token', namespace: 'kube-system', serverUrl: 'https://FCE040A44E47B0273102E6579D78DB6A.sk1.us-west-2.eks.amazonaws.com']]) {
              sh 'kubectl apply -f deployment.yml'
-             sh 'kubectl rollout restart deployment demo-app-deploy'
+             sh 'kubectl rollout restart deployment demo-app-deploy  -n default'
             }
         }
       }
