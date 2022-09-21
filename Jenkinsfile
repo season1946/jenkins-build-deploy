@@ -12,13 +12,10 @@ pipeline {
             - cat
             tty: true
           - name: awscli
-            image: jansauer/dockercli-plus-awscli
+            image: amazon/aws-cli
             command:
             - cat
             tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
           - name: docker
             image: docker:latest
             command:
@@ -63,7 +60,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh ' docker login --username AWS --password $(aws ecr get-login-password --region us-west-2) 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          echo 'Empty'
 
       }
      }
@@ -71,7 +68,10 @@ pipeline {
     stage('Login-push') {
       steps {
         container('docker') {
-
+          sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
+          sh 'unzip awscliv2.zip'
+          sh 'sudo ./aws/install'
+          sh 'docker login --username AWS --password $(aws ecr get-login-password --region us-west-2) 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
