@@ -26,6 +26,9 @@ pipeline {
         '''
     }
   }
+  environment{
+    docker_pwd = credentials('dockerhub-pwd')
+  }
   stages {
     stage('Clone') {
       steps {
@@ -51,7 +54,7 @@ pipeline {
     stage('Login-push') {
       steps {
         container('docker') {
-          sh 'docker login -u victorgucanada -p Jing723211'
+          sh 'docker login -u victorgucanada -p $docker_pwd'
           sh 'docker push victorgucanada/jenkins-demo:latest'
       }
      }
