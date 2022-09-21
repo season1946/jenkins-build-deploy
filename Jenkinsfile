@@ -52,22 +52,22 @@ pipeline {
     stage('Build-Docker-Image') {
       steps {
         container('docker') {
-          sh 'docker build -t victorgucanada/jenkins-demo:latest .'
+          sh 'docker build -t 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest .'
         }
       }
     }
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'aws ecr get-login-password --region us-west-2'
+          sh 'export ecr_token=$(aws ecr get-login-password --region us-west-2)'
       }
      }
     }
     stage('Login-push') {
       steps {
         container('docker') {
-          sh 'docker login -u victorgucanada -p $docker_pwd'
-          sh 'docker push victorgucanada/jenkins-demo:latest'
+          sh 'echo $token | docker login --username AWS --password-stdin 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
     }
