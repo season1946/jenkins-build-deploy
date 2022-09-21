@@ -64,7 +64,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'docker login --username AWS --password ${aws ecr get-login-password --region us-west-2} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'docker login --username AWS --password $(aws ecr get-login-password --region us-west-2) 349361870252.dkr.ecr.us-west-2.amazonaws.com'
       }
      }
     }
