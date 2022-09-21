@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: victorgucanada/jenkins-demo:latest #349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest
+          image: 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest
           ports:
             - containerPort: 80
               protocol: TCP
