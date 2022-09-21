@@ -64,7 +64,8 @@ pipeline {
       steps {
         container('awscli') {
           echo 'Empty'
-
+          sh 'ecr_token=test'
+          echo ${ecr_token} 
       }
      }
     }
