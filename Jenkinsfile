@@ -16,6 +16,9 @@ pipeline {
             command:
             - cat
             tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
           - name: docker
             image: docker:latest
             command:
@@ -50,20 +53,21 @@ pipeline {
         }
       }
     }
+
+    stage('Build-Docker-Image') {
+      steps {
+        container('docker') {
+          sh 'docker build -t 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest .'
+        }
+      }
+    }
     stage('Login-ECR') {
       steps {
         container('awscli') {
           sh 'docker login --username AWS --password $(aws ecr get-login-password --region us-west-2) 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
-    }
-    stage('Build-Docker-Image-push') {
-      steps {
-        container('docker') {
-          sh 'docker build -t 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest .'
-          sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
-        }
-      }
     }
     stage('deploy-Image-local') {
       steps {
