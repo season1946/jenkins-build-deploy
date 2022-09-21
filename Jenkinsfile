@@ -12,7 +12,7 @@ pipeline {
             - cat
             tty: true
           - name: awscli
-            image: amazon/aws-cli
+            image: public.ecr.aws/codebuild/amazonlinux2-x86_64-standard:4.0
             command:
             - cat
             tty: true
@@ -64,8 +64,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'foo=test'
-          sh 'echo ${ecr_token}'
+          sh 'docker login --username AWS --password ${aws ecr get-login-password --region us-west-2} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
       }
      }
     }
