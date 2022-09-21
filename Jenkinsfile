@@ -34,6 +34,9 @@ pipeline {
   environment{
     docker_pwd = credentials('dockerhub-pwd')
   }
+  parameters {
+    string(name: 'ecr_token', defaultValue: '')
+  }
 
   stages {
     stage('Clone') {
@@ -68,11 +71,7 @@ pipeline {
     stage('Login-push') {
       steps {
         container('docker') {
-          sh 'yum install curl'
-          sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
-          sh 'unzip awscliv2.zip'
-          sh 'sudo ./aws/install'
-          sh 'docker login --username AWS --password $(aws ecr get-login-password --region us-west-2) 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'docker login --username AWS --password ${params.ecr_token} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
