@@ -73,7 +73,6 @@ pipeline {
         container('docker') {
           sh 'docker login --username AWS --password ${ecr_token} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
-          #!/bin/bash
           curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
           chmod +x ./kubectl
       }
