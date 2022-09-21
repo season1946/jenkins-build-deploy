@@ -60,13 +60,14 @@ pipeline {
       steps {
         container('awscli') {
           sh 'export ecr_token=$(aws ecr get-login-password --region us-west-2)'
+          sh 'docker login --username AWS --password $ecr_token 349361870252.dkr.ecr.us-west-2.amazonaws.com'
       }
      }
     }
     stage('Login-push') {
       steps {
         container('docker') {
-          sh 'docker login --username AWS --password $ecr_token 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
