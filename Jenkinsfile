@@ -73,6 +73,9 @@ pipeline {
         container('docker') {
           sh 'docker login --username AWS --password ${ecr_token} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
       }
      }
     }
