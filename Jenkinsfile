@@ -11,6 +11,11 @@ pipeline {
             command:
             - cat
             tty: true
+          - name: awscli
+            image: amazon/aws-cli
+            command:
+            - cat
+            tty: true
           - name: docker
             image: docker:latest
             command:
@@ -50,6 +55,13 @@ pipeline {
           sh 'docker build -t victorgucanada/jenkins-demo:latest .'
         }
       }
+    }
+    stage('Login-ECR') {
+      steps {
+        container('awscli') {
+          sh 'aws ecr get-login --no-include-email --region us-west-2'
+      }
+     }
     }
     stage('Login-push') {
       steps {
