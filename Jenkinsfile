@@ -12,7 +12,7 @@ pipeline {
             - cat
             tty: true
           - name: awscli
-            image: amazon/aws-cli
+            image: amazonlinux
             command:
             - cat
             tty: true
