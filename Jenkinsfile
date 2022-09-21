@@ -33,10 +33,9 @@ pipeline {
   }
   environment{
     docker_pwd = credentials('dockerhub-pwd')
+    ecr_token = ''
   }
-  parameters {
-      string(name: 'ecr_token', defaultValue: '')
-  }
+
   stages {
     stage('Clone') {
       steps {
