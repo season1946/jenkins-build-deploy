@@ -44,7 +44,7 @@ pipeline {
     stage('Build-Docker-Image') {
       steps {
         container('docker') {
-          sh 'docker build -t 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest .'
+          sh 'docker build -t victorgucanada/jenkins-demo:latest .'
         }
       }
     }
@@ -52,11 +52,11 @@ pipeline {
       steps {
         container('docker') {
           sh 'docker login -u victorgucanada -p Jing723211'
-          sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
+          sh 'docker push victorgucanada/jenkins-demo:latest'
       }
      }
     }
-    stage('deploy-Image') {
+    stage('deploy-Image-local') {
       steps {
         container('kubectl') {
              sh 'kubectl apply -f deployment.yml'
@@ -64,7 +64,16 @@ pipeline {
         }
       }
     }
-
+    stage('deploy-EKS011-asProd') {
+      steps {
+        container('kubectl') {
+           withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'arn:aws:eks:us-west-2:349361870252:cluster/aws011-preprod-test-eks', contextName: '', credentialsId: 'EKS011-admin-token', namespace: 'kube-system', serverUrl: 'https://FCE040A44E47B0273102E6579D78DB6A.sk1.us-west-2.eks.amazonaws.com']]) {
+             sh 'kubectl apply -f deployment.yml'
+             sh 'kubectl rollout restart deployment demo-app-deploy'
+            }
+        }
+      }
+    }
 
   }
 
