@@ -12,7 +12,7 @@ pipeline {
             - cat
             tty: true
           - name: awscli
-            image: amazonlinux
+            image: amazon/aws-codebuild-local
             command:
             - cat
             tty: true
