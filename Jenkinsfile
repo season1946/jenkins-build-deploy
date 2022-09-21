@@ -62,7 +62,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'env.ecr_token=$(aws ecr get-login-password --region us-west-2)'
+          sh 'export env.ecr_token=$(aws ecr get-login-password --region us-west-2)'
          
       }
      }
