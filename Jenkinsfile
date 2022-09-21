@@ -33,10 +33,6 @@ pipeline {
   }
   environment{
     docker_pwd = credentials('dockerhub-pwd')
-    foo ="nothing"
-  }
-  parameters {
-    string(name: 'ecr_token', defaultValue: '')
   }
 
   stages {
