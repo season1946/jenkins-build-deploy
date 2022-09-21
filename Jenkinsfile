@@ -12,7 +12,7 @@ pipeline {
             - cat
             tty: true
           - name: awscli
-            image: amazon/aws-codebuild-local
+            image: amazon/aws-cli
             command:
             - cat
             tty: true
@@ -33,6 +33,9 @@ pipeline {
   }
   environment{
     docker_pwd = credentials('dockerhub-pwd')
+  }
+  parameters {
+      string(name: 'ecr_token', defaultValue: '')
   }
   stages {
     stage('Clone') {
@@ -59,15 +62,15 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          sh 'export ecr_token=$(aws ecr get-login-password --region us-west-2)'
-          sh 'docker login --username AWS --password $ecr_token 349361870252.dkr.ecr.us-west-2.amazonaws.com'
+          sh 'env.ecr_token=$(aws ecr get-login-password --region us-west-2)'
+         
       }
      }
     }
     stage('Login-push') {
       steps {
         container('docker') {
-
+          sh 'docker login --username AWS --password ${env.ecr_token} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
      }
