@@ -33,6 +33,7 @@ pipeline {
   }
   environment{
     docker_pwd = credentials('dockerhub-pwd')
+    foo ="nothing"
   }
   parameters {
     string(name: 'ecr_token', defaultValue: '')
@@ -63,8 +64,7 @@ pipeline {
     stage('Login-ECR') {
       steps {
         container('awscli') {
-          echo 'Empty'
-          sh 'ecr_token=test'
+          sh 'foo=test'
           sh 'echo ${ecr_token}'
       }
      }
@@ -72,6 +72,7 @@ pipeline {
     stage('Login-push') {
       steps {
         container('docker') {
+          sh 'echo ${foo}'
           sh 'docker login --username AWS --password ${ecr_token} 349361870252.dkr.ecr.us-west-2.amazonaws.com'
           sh 'docker push 349361870252.dkr.ecr.us-west-2.amazonaws.com/jenkins-demo:latest'
       }
